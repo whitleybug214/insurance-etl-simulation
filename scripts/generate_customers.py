@@ -15,6 +15,9 @@ Run from the project root using:
     python -m scripts.generate_customers
 """
 
+random.seed(42)
+Faker.seed(42)
+
 fake = Faker()
 output_dir = Path("data/raw")
 output_dir.mkdir(parents=True, exist_ok=True)
