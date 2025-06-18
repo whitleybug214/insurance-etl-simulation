@@ -125,11 +125,11 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 
 if __name__ == "__main__":
     t0 = time.perf_counter()
-    write_clean_claims(10000)
+    write_clean_claims(50000)
     t1 = time.perf_counter()
     logging.info(f"Clean claims generated in {t1 - t0:.2f} seconds")
 
     t2 = time.perf_counter()
-    write_messy_claims(2500)
+    write_messy_claims(250)
     t3 = time.perf_counter()
     logging.info(f"Messy claims generated in {t3 - t2:.2f} seconds")
