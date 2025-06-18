@@ -53,12 +53,12 @@ _Star schema diagram will be added here in future iterations._
 
 ## Dimension Table: `adjusters_dim`
 
-| Column        | Type     | Description          |
-|---------------|----------|----------------------|
-| `adjuster_id` | INT (PK) | Unique adjuster ID   |
-| `name`        | TEXT     | Adjuster's full name |
-| `region`      | TEXT     | Their service area   |
-| `team_lead`   | TEXT     | Supervisor name or ID |
+| Column         | Type     | Description   |
+|----------------|----------|---------------|
+| `adjuster_id`  | INT (PK) | Unique adjuster ID |
+| `name`         | TEXT     | Adjuster's full name |
+| `region`       | TEXT     | Their service area |
+| `team_lead_id` | INT      | Supervisor ID |
 
 ### Notes:
 - All foreign key IDs in the fact table must match existing rows in their dimension tables.
