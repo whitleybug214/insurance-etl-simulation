@@ -2,7 +2,7 @@ import csv
 import random
 from faker import Faker
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import timedelta
 from etl.schema_definition import policies_schema
 
 """
