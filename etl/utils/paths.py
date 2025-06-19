@@ -1,5 +1,11 @@
 from pathlib import Path
 
+BASE_DIR = Path("data")
+
+RAW_DATA_DIR = BASE_DIR / "raw"
+TRANSFORMED_DATA_DIR = BASE_DIR / "transformed"
+REJECTED_DATA_DIR = BASE_DIR / "rejected"
+
 def ensure_dir(path: str | Path) -> Path:
     """
     Ensures a directory exists. Creates it if missing.

@@ -1,8 +1,7 @@
 import pandas as pd
 from pathlib import Path
 import logging
-
-RAW_DATA_DIR = Path("data/raw")
+from etl.utils.paths import RAW_DATA_DIR
 
 def load_raw_table(table:str) -> pd.DataFrame:
     """
