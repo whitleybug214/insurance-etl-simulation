@@ -2,7 +2,6 @@ import pandas as pd
 import logging
 from etl.schema_definition import SchemaType
 from etl.utils.paths import TRANSFORMED_DATA_DIR, REJECTED_DATA_DIR, ensure_dir
-from etl.utils.load import load_raw_table
 from etl.validation.validate_data import validate_data
 
 
