@@ -2,6 +2,8 @@ import pandas as pd
 import logging
 from pathlib import Path
 from etl.schema_definition import customers_schema
+from etl.utils.load import load_raw_table
+from etl.utils.paths import ensure_dir
 
 """
 Transforms raw customer data (clean + messy) into a cleaned, validated dataset.
@@ -16,15 +18,9 @@ Run from the project root using:
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | [%(levelname)s] | %(message)s")
 
-raw_dir = Path("data/raw")
-processed_dir = Path("data/processed")
-processed_dir.mkdir(exist_ok=True)
+processed_dir = ensure_dir("data/processed")
 
 def load_data() -> pd.DataFrame:
     """Load clean and messy raw customer data"""
-    clean_df = pd.read_csv(raw_dir / "customers_clean.csv")
-    messy_df = pd.read_csv(raw_dir / "customers_messy.csv")
-    combined = pd.concat([clean_df, messy_df], ignore_index=True)
-    logging.info(f"Loaded {len(combined)} rows from clean and messy sources")
-    return combined
+    return load_raw_table("customers")
 
