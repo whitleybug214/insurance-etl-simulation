@@ -8,6 +8,8 @@ These schemas can be reused for:
 - Maintaining consistent structure across ETL steps
 """
 
+SchemaType = dict[str, type]
+
 claims_fact_schema = {
     "claim_id": int,
     "customer_id": int,
