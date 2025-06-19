@@ -3,6 +3,7 @@ import logging
 from etl.schema_definition import SchemaType
 from etl.utils.paths import TRANSFORMED_DATA_DIR, REJECTED_DATA_DIR, ensure_dir
 from etl.validation.validate_data import validate_data
+from etl.utils.helpers import parse_date, normalize_gender, normalize_region
 
 
 def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
@@ -12,7 +13,6 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     - Stripping whitespace from string fields
     Args:
         df (pd.DataFrame): Raw input DataFrame
-
     Returns:
         pd.DataFrame: Cleaned DataFrame
     """
@@ -20,6 +20,43 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
     return df
 
+def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Cleans the customers table with additional field-specific logic:
+    - Normalize gender values to 'M' or 'F'
+    - Standardize phone number format
+    - Format names and emails
+    - Ensure risk score is numeric
+    """
+    df = clean_dataframe(df)
+
+    # Standardize names and email
+    df["email"] = df["email"].str.lower()
+    df["first_name"] = df["first_name"].str.title()
+    df["last_name"] = df["last_name"].str.title()
+
+    # Standardize date
+    df["birth_date"] = df["birth_date"].apply(parse_date)
+
+    # Normalize gender
+    gender_map = {
+        "m": "M", "male": "M", "man": "M",
+        "f": "F", "female": "F", "woman": "F",
+        "other": "Other", "nonbinary": "Other", "nb": "Other",
+    }
+    df["gender"] = df["gender"].str.strip().str.lower().map(gender_map).fillna(df["gender"])
+
+    # Standardize phone numbers to format: 10-digit only (e.g., '5551234567')
+    df["phone_number"] = df["phone_number"].str.replace(r"\D", "", regex=True)
+    df["phone_number"] = df["phone_number"].str.slice(-10)  # Keep only last 10 digits
+
+    # Normalize region
+    df["region"] = df["region"].apply(normalize_region)
+
+    # Ensure risk_score is numeric
+    df["risk_score"] = pd.to_numeric(df["risk_score"], errors="coerce")
+
+    return df
 
 def split_valid_invalid(df: pd.DataFrame, schema: SchemaType) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
