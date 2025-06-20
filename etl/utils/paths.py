@@ -1,6 +1,6 @@
 from pathlib import Path
 
-BASE_DIR = Path("data")
+BASE_DIR = Path(__file__).resolve().parents[2] / "data"
 
 RAW_DATA_DIR = BASE_DIR / "raw"
 PROCESSED_DATA_DIR = BASE_DIR / "processed"
