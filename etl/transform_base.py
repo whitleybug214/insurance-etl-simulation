@@ -58,16 +58,17 @@ def clean_customers(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-def split_valid_invalid(df: pd.DataFrame, schema: SchemaType) -> tuple[pd.DataFrame, pd.DataFrame]:
+def split_valid_invalid(df: pd.DataFrame, schema: SchemaType, table: str) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Validates the dataframe and splits it into valid and invalid rows.
     Args:
         df (pd.DataFrame): Input DataFrame
         schema (SchemaType): Table schema
+        table (str): Table name
     Returns:
         Tuple of valid and invalid DataFrames
     """
-    is_valid = validate_data(df, schema)
+    is_valid = validate_data(df, schema, table).fillna(False)
     return df[is_valid], df[~is_valid]
 
 

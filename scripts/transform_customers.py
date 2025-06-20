@@ -5,8 +5,8 @@ from etl.transform_base import (
     split_valid_invalid,
     save_transformed_data,
     save_rejected_data,
+    clean_customers
 )
-from etl.transform_base import clean_customers
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | [%(levelname)s] | %(message)s")
 
@@ -20,7 +20,7 @@ def main():
     logging.info(f"Loaded {len(raw_df)} raw rows from {table}")
 
     cleaned_df = clean_customers(raw_df)
-    valid_df, invalid_df = split_valid_invalid(cleaned_df, customers_schema)
+    valid_df, invalid_df = split_valid_invalid(cleaned_df, customers_schema, table)
     logging.info(f"{len(valid_df)} valid rows, {len(invalid_df)} invalid rows after validation")
 
     save_transformed_data(valid_df, table)
